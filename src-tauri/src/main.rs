@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    ecoflow_desktop_client_lib::run()
+  ecoflow_desktop_client_lib::run()
 }
