@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
-import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { Router, RouterOutlet } from "@angular/router";
 import { firstValueFrom } from "rxjs";
 
 @Component({
@@ -9,8 +9,13 @@ import { firstValueFrom } from "rxjs";
   styleUrl: "./app.scss",
   imports: [RouterOutlet],
 })
-export class App {
-  constructor(private readonly http: HttpClient) {
+export class App implements OnInit {
+  constructor(private readonly http: HttpClient, private readonly router: Router) {
+  }
+
+
+  ngOnInit(): void {
+    this.router.navigate(['register-account']);
   }
 
 
