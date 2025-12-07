@@ -1,0 +1,24 @@
+<p-table [value]="devices()">
+  <ng-template #caption>
+    <span>Devices</span>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th>Product name</th>
+      <th>Device name</th>
+      <th>SN</th>
+      <th>Online</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-device>
+    <tr>
+      <td>{{ device.productName }}</td>
+      <td>{{ device.deviceName }}</td>
+      <td>{{ device.sn }}</td>
+      <td>{{ device.online }}</td>
+      <td>
+        <p-button (onClick)="observe(device)">Observe</p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
