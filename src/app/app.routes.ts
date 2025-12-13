@@ -8,5 +8,9 @@ export const routes: Routes = [
   {
     path: 'devices',
     loadComponent: () => import('./devices/devices').then(c => c.Devices),
+  },
+  {
+    path: 'device/:productName/:deviceName/:sn',
+    loadComponent: () => import('./device/device').then(c => c.Device),
   }
 ];

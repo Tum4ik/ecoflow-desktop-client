@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { Button } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { DeviceData } from '../services/settings-service';
@@ -18,6 +19,7 @@ import { DevicesService } from './devices-service';
 })
 export class Devices implements OnInit {
   private readonly devicesService = inject(DevicesService);
+  private readonly router = inject(Router);
 
   protected readonly devices = signal<DeviceData[]>([]);
 
@@ -27,6 +29,6 @@ export class Devices implements OnInit {
 
 
   observe(device: DeviceData) {
-
+    this.router.navigate(['device', device.productName, device.deviceName, device.sn]);
   }
 }
