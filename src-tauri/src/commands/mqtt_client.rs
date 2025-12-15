@@ -57,8 +57,30 @@ pub async fn mqtt_client_subscribe(
 
   if let Some(client) = client_opt {
     let sub = client.subscribe(topic, QoS::AtMostOnce).await;
-    // todo: handle error - display on UI
     if let Err(err) = sub {
+      // todo: handle error - display on UI
+      println!("{err}");
+    }
+  }
+
+  Ok(())
+}
+
+#[tauri::command]
+pub async fn mqtt_client_publish(
+  mqtt_client_state: State<'_, Arc<Mutex<Option<AsyncClient>>>>,
+  topic: String,
+  payload: String,
+) -> Result<(), ()> {
+  let client_opt = {
+    let mut guard = mqtt_client_state.lock().unwrap();
+    guard.as_mut().cloned()
+  };
+
+  if let Some(client) = client_opt {
+    let pub_res = client.publish(topic, QoS::AtMostOnce, false, payload).await;
+    if let Err(err) = pub_res {
+      // todo: handle error - display on UI
       println!("{err}");
     }
   }

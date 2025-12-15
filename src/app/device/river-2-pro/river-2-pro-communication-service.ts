@@ -18,14 +18,13 @@ export class River2ProCommunicationService {
   }
 
   async observePowerDeliveryAsync(sn: string, handler: (payload: QuotaPayload<'pdStatus'>) => void): Promise<UnlistenFn> {
-
     const certificationData = await this.settingsService.getMqttCertificationDataAsync();
     if (!certificationData) {
       // todo: handle error
       throw new Error('no certification data');
     }
 
-    const unlisten = await this.mqttClientService.subscribeAsync<QuotaPayload<TypeCode>>(
+    return await this.mqttClientService.subscribeAsync<QuotaPayload<TypeCode>>(
       `/open/${certificationData.certificateAccount}/${sn}/quota`,
       payload => {
         if (payload.typeCode === 'pdStatus') {
@@ -33,7 +32,5 @@ export class River2ProCommunicationService {
         }
       }
     );
-
-    return unlisten;
   }
 }

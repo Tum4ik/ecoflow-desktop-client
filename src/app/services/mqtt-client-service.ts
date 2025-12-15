@@ -43,4 +43,9 @@ export class MqttClientService {
 
     return unlisten;
   }
+
+
+  async publishAsync(topic: string, payload: any) {
+    await invoke('mqtt_client_publish', { topic: topic, payload: JSON.stringify(payload) });
+  }
 }

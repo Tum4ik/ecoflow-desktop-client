@@ -1,0 +1,80 @@
+name: Release Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      is-release:
+        description: 'Release'
+        type: boolean
+        default: false
+
+
+jobs:
+  release:
+    name: Release
+    # defaults:
+    #   run:
+    #     shell: pwsh
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+          - platform: ubuntu-latest # (planned for future)
+    runs-on: ${{ matrix.platform }}
+    # outputs:
+    #   version: ${{ steps.get-version.outputs.version }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install Ubuntu dependencies
+      if: matrix.platform == 'ubuntu-latest' # This must match the platform value defined above.
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24
+        cache: 'npm'
+        cache-dependency-path: ./package-lock.json
+
+    - name: Install Rust stable
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Rust cache
+      uses: swatinem/rust-cache@v2
+      with:
+        workspaces: './src-tauri -> target'
+
+    - name: NPM clean install
+      run: npm ci
+
+    # - name: Get version
+    #   id: get-version
+    #   run: |
+    #     Install-Module -Name PSToml -Force
+    #     $cargoToml = Get-Content ./src-tauri/Cargo.toml -Raw | ConvertFrom-Toml
+    #     $version = $cargoToml.package.version
+    #     Write-Host "$version"
+    #     echo "version=$version" >> $env:GITHUB_OUTPUT
+
+    - name: Build Tauri application
+      if: ${{ !inputs.is-release }}
+      run: npm run tauri build
+
+    - name: Release Tauri app
+      if: ${{ inputs.is-release }}
+      uses: tauri-apps/tauri-action@v0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tagName: __VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
+        releaseName: __VERSION__
+        releaseBody: 'See the assets to download this version and install.'
+        releaseDraft: true

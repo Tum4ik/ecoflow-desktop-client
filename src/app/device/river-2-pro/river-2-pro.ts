@@ -3,6 +3,7 @@ import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/co
 import { UnlistenFn } from '@tauri-apps/api/event';
 import { Card } from 'primeng/card';
 import { ProgressBar } from 'primeng/progressbar';
+import { QuotaPayload } from './payloads/quota-payload';
 import { River2ProCommunicationService } from './river-2-pro-communication-service';
 
 @Component({
@@ -30,15 +31,20 @@ export class River2Pro implements OnInit, OnDestroy {
   private readonly unlistens: UnlistenFn[] = [];
 
   async ngOnInit() {
-    const unlisten = await this.communicationService.observePowerDeliveryAsync(this.sn(), payload => {
-      this.batteryLevel.set(payload.params.soc);
-      this.remainTime.set(payload.params.remainTime * 60 * 1000);
-    });
-
-    this.unlistens.push(unlisten);
+    this.unlistens.push(
+      await this.communicationService.observePowerDeliveryAsync(this.sn(), this.onPowerDeliveryPayloadReceived.bind(this)),
+    );
   }
 
   ngOnDestroy(): void {
-    this.unlistens.forEach(unlisten => unlisten());
+    for (const unlisten of this.unlistens) {
+      unlisten();
+    }
+  }
+
+
+  private onPowerDeliveryPayloadReceived(payload: QuotaPayload<'pdStatus'>) {
+    this.batteryLevel.set(payload.params.soc);
+    this.remainTime.set(payload.params.remainTime * 60 * 1000);
   }
 }
