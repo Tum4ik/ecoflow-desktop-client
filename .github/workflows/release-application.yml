@@ -12,9 +12,9 @@ on:
 jobs:
   release:
     name: Release
-    # defaults:
-    #   run:
-    #     shell: pwsh
+    defaults:
+      run:
+        shell: pwsh
     permissions:
       contents: write
     strategy:
@@ -22,10 +22,10 @@ jobs:
       matrix:
         include:
           - platform: windows-latest
-          - platform: ubuntu-latest # (planned for future)
+          - platform: ubuntu-latest
     runs-on: ${{ matrix.platform }}
-    # outputs:
-    #   version: ${{ steps.get-version.outputs.version }}
+    outputs:
+      release-notes: ${{ steps.get-release-notes.outputs.release-notes }}
 
     steps:
     - name: Checkout
@@ -55,18 +55,15 @@ jobs:
     - name: NPM clean install
       run: npm ci
 
-    # - name: Get version
-    #   id: get-version
-    #   run: |
-    #     Install-Module -Name PSToml -Force
-    #     $cargoToml = Get-Content ./src-tauri/Cargo.toml -Raw | ConvertFrom-Toml
-    #     $version = $cargoToml.package.version
-    #     Write-Host "$version"
-    #     echo "version=$version" >> $env:GITHUB_OUTPUT
-
     - name: Build Tauri application
       if: ${{ !inputs.is-release }}
       run: npm run tauri build
+
+    - name: Get release notes
+      id: get-release-notes
+      run: |
+        $content = Get-Content ./release-notes.md -Raw
+        echo "release-notes=$content" >> $env:GITHUB_OUTPUT
 
     - name: Release Tauri app
       if: ${{ inputs.is-release }}
@@ -76,6 +73,6 @@ jobs:
       with:
         tagName: __VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
         releaseName: __VERSION__
-        releaseBody: 'See the assets to download this version and install.'
+        releaseBody: ${{ steps.get-release-notes.outputs.release-notes }}
         releaseDraft: true
         includeUpdaterJson: true
