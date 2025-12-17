@@ -63,7 +63,9 @@ jobs:
       id: get-release-notes
       run: |
         $content = Get-Content ./release-notes.md -Raw
-        echo "release-notes=$content" >> $env:GITHUB_OUTPUT
+        echo "release-notes<<EOF" >> $env:GITHUB_OUTPUT
+        echo $content >> $env:GITHUB_OUTPUT
+        echo "EOF" >> $env:GITHUB_OUTPUT
 
     - name: Release Tauri app
       if: ${{ inputs.is-release }}
