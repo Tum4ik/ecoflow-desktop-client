@@ -1,7 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "ecoflow-desktop-client",
-  "version": "0.1.0",
   "identifier": "com.tum4ik.ecoflow-desktop-client",
   "build": {
     "beforeDevCommand": "npm run start",
