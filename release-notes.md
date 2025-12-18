@@ -1,3 +1,3 @@
-# Fixes
+# Features
 
-* Set default crypto provider
+* Established application icon
