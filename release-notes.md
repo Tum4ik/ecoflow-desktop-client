@@ -1,4 +1,3 @@
-# Features
+# Fixes
 
-* Observe devices list
-* Observe battery level and remaining time for River 2 Pro
+* Set default crypto provider
