@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Device } from './device';
+import { BatteryLevelWidget } from './battery-level-widget';
 
-describe('Device', () => {
-  let component: Device;
-  let fixture: ComponentFixture<Device>;
+describe('BatteryLevelWidget', () => {
+  let component: BatteryLevelWidget;
+  let fixture: ComponentFixture<BatteryLevelWidget>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Device]
+      imports: [BatteryLevelWidget]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Device);
+    fixture = TestBed.createComponent(BatteryLevelWidget);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

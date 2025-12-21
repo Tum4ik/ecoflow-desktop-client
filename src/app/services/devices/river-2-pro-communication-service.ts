@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { UnlistenFn } from '@tauri-apps/api/event';
-import { MqttClientService } from '../../services/mqtt-client-service';
-import { SettingsService } from '../../services/settings-service';
-import { QuotaPayload, TypeCode } from './payloads/quota-payload';
+import { MqttClientService } from '../mqtt-client-service';
+import { SettingsService } from '../settings-service';
+import { QuotaPayload, TypeCode } from './quota-payload';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class River2ProCommunicationService {
   private readonly settingsService = inject(SettingsService);
   private readonly mqttClientService = inject(MqttClientService);

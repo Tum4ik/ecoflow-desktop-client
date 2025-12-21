@@ -1,3 +1,4 @@
-# Fixes
+# Features
 
-* Set default crypto provider
+* Established application icon
+* Battery level widget

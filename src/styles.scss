@@ -1,16 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
 html,
 body {
   height: 100%;
   overflow: hidden;
+  margin: 0;
+  user-select: none;
 }
 
 html {
-  margin: 0;
   font-size: 14px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  margin: 0.5rem;
 }
