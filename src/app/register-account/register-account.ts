@@ -24,7 +24,7 @@ export class RegisterAccount {
   async register(accessKey: string, secretKey: string) {
     const registered = await this.accountService.registerAsync(accessKey, secretKey);
     if (registered) {
-      await this.router.navigate(['devices']);
+      await this.router.navigate(['']);
     }
 
     // todo: if not registered - display error message

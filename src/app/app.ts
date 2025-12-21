@@ -1,6 +1,5 @@
-import { Component, inject, OnInit } from "@angular/core";
-import { Router, RouterOutlet } from "@angular/router";
-import { AccountService } from "./services/account-service";
+import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: "app-root",
@@ -8,16 +7,6 @@ import { AccountService } from "./services/account-service";
   styleUrl: "./app.scss",
   imports: [RouterOutlet],
 })
-export class App implements OnInit {
-  private readonly router = inject(Router);
-  private readonly accountService = inject(AccountService);
+export class App {
 
-  async ngOnInit() {
-    if (await this.accountService.isRegisteredAsync()) {
-      await this.router.navigate(['devices']);
-    }
-    else {
-      await this.router.navigate(['register-account']);
-    }
-  }
 }

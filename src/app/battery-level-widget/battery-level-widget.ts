@@ -2,23 +2,22 @@ import { Component, inject, input, inputBinding, OnInit, ViewContainerRef } from
 import { River2Pro } from './river-2-pro/river-2-pro';
 
 @Component({
-  selector: 'edc-device',
-  templateUrl: './device.html',
-  styleUrl: './device.scss',
-  imports: [
-
-  ],
+  selector: 'edc-battery-level-widget',
+  templateUrl: './battery-level-widget.html',
+  styleUrl: './battery-level-widget.scss',
+  imports: [],
+  host: {
+    'data-tauri-drag-region': '',
+  }
 })
-export class Device implements OnInit {
+export class BatteryLevelWidget implements OnInit {
   readonly productName = input.required<string>();
   readonly deviceName = input.required<string>();
   readonly sn = input.required<string>();
 
-
   private readonly viewContainer = inject(ViewContainerRef);
 
-
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.productName() === 'RIVER 2 Pro') {
       this.viewContainer.createComponent(River2Pro, {
         bindings: [

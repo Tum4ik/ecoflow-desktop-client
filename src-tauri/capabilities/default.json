@@ -8,10 +8,14 @@
     "linux"
   ],
   "windows": [
-    "main"
+    "main",
+    "battery-level-widget"
   ],
   "permissions": [
     "core:default",
+    "core:webview:allow-create-webview-window",
+    "core:window:allow-start-dragging",
+    "core:window:allow-close",
     "opener:default",
     "store:default",
     "updater:default",

@@ -29,6 +29,9 @@ export class MqttClientService {
   }
 
 
+  // todo: avoid multiple subscriptions
+  // 1. keep subscriptions in a map, topic is a key
+  // 2. on mqtt message received - call all handlers under the topic
   async subscribeAsync<T>(topic: string, handler: (payload: T) => void): Promise<UnlistenFn> {
     const unlisten = await listen<{ topic: string; payload: string; }>('mqtt-client-message', event => {
       const messageTopic = event.payload.topic;

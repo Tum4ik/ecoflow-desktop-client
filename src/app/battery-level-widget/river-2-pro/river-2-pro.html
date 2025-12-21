@@ -1,0 +1,5 @@
+<span class="device-name">{{ deviceName() }}</span>
+<p-progress-bar [mode]="batteryLevel() ? 'determinate' : 'indeterminate'"
+                [value]="batteryLevel()" />
+<span class="remain-time">{{ remainTime() }}</span>
+<p-button icon="pi pi-ellipsis-v" [text]="true" (onClick)="showMenu()" />
