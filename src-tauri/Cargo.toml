@@ -1,6 +1,6 @@
 [package]
 name = "ecoflow-desktop-client"
-version = "0.1.1"
+version = "0.2.0"
 description = "Unofficial EcoFlow desktop client"
 authors = ["Yevheniy Tymchishin"]
 license-file = "../LICENSE"
